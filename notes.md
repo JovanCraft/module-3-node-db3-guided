@@ -1,0 +1,88 @@
+## Notes From SQLite Studios:
+
+--select
+    --*
+--from orders as o
+--join shippers as s
+    --on o.shipperid = s.shipperid;
+
+--this says I want to get all of the records from Orders(and alias Orders as simply 'o')
+--THEN I want to add shippers(which I want to alias as 's') as well to the table, combining them essentially
+
+--select
+    --o.orderid,
+    --o.orderdate,
+    --s.shippername
+--from orders as o
+--join shippers as s
+    --on o.shipperid = s.shipperid;
+
+--This one only combines the orderid from orders, the orderdate from orders, and the shippername from shippers!
+
+--technically orderid, orderdate, AND shippername are unambiguous and are only present in 1 of the tables we want to show.
+--Because of that we dont HAVE to put o. or s. in front of them(I just choose to)
+
+--select
+    --orderid,
+    --orderdate,
+    --shippername
+--from orders as o
+--join shippers as s
+    --on o.shipperid = s.shipperid
+--group by s.shipperid;
+
+--this collapses all the rows until there are only 3(since there are only 3 Shipper Companies)
+
+--select
+    --count(orderid) as ordercount,
+    --shippername
+--from orders as o
+--join shippers as s
+    --on o.shipperid = s.shipperid
+--group by s.shipperid
+--order by ordercount;
+
+--This, even though it still has the companies collapsed down to just the 3 names
+--IT COUNTS how many times each id was present! Speedy-54 / United-74 / Federal-68!
+-- aliased line 35 to ORDERCOUNT but it could have just been written like this / count(orderid),
+-- The last line just put them in numerical order by the amount of ordercounts (can put desc to make it greater than first)
+
+--select
+    --o.orderid,
+    --o.orderdate,
+    --(e.firstname || ' ' || e.lastname) as employee
+--from orders as o
+--join employees as e
+    --on o.employeeid = e.employeeid
+
+--lists a list of orderid along with the order dates and the full names of the employees involved with the order 'aggregated'/concatenated togather!
+
+--select
+--count(o.orderid) as orders,
+    --(e.firstname || ' ' || e.lastname) as employee
+--from orders as o
+--join employees as e
+    --on o.employeeid = e.employeeid
+--group by e.employeeid;
+
+--This makes it where it shows all of the employees who have worked on orders before
+--Also shows the number of orders they have participated in
+-- as well as, does not show the name of the 1 employee who has NOT dealt with an order (Adam West LOL)
+-- THESE HAVE BEEN INNER JOINS
+
+--An example of a LEFT JOIN (outer join) would be:
+--to show the employee without an order under his belt, it needs to be 'moved to the left' which is by from
+
+--select
+--count(o.orderid) as orders,
+    --(e.firstname || ' ' || e.lastname) as employee
+--from employees as e
+--left join orders as o
+    --on o.employeeid = e.employeeid
+--group by e.employeeid;
+
+--the orders and the employees places should be swapped!
+--the keyword left should also be added in front of the join!
+--This time it shows all of the same data from earlier except for one thing:
+--ADAM WEST HAS BEEN ADDED WITH THE COUNT OF 0 ORDERS BY HIS NAME LOL
+--If, for example, we were to put orderdate in the function as well, the orderdate by Adam West would be NULL

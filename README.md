@@ -13,6 +13,6 @@ Guided project for **Node DB3** Module.
 - [ x ] clone this repository.
 - [ x ] cd into the project folder.
 - [ x ] type `npm i` to download dependencies.
-- [ ] type `npm run server` to start the API.
+- [ x ] type `npm run server` to start the API.
 
 Please follow along as the instructor creates database access methods for a multi table schema.
