@@ -1,5 +1,7 @@
 ## Notes From SQLite Studios:
 
+## Northwind.db3 practice
+
 --select
     --*
 --from orders as o
@@ -86,3 +88,73 @@
 --This time it shows all of the same data from earlier except for one thing:
 --ADAM WEST HAS BEEN ADDED WITH THE COUNT OF 0 ORDERS BY HIS NAME LOL
 --If, for example, we were to put orderdate in the function as well, the orderdate by Adam West would be NULL
+
+## Blog.db3 practice
+
+--select
+    --*
+--from posts as p
+--join users as u
+    --on p.user_id = u.id
+
+-- CAREFUL!! The foreign id inside posts (p.user_id) and the one inside users (u.id) are given 2 different names!
+--Though they are talking about the same thing
+--When this is ran, it doesn't show the the 12th post that doesn't have a user_id
+
+--select
+    --p.id as post_id,
+    --p.contents,
+    --u.username
+--from posts as p
+--join users as u
+    --on p.user_id = u.id
+
+--shows the id(aliased as post_id) as well as the pontents from inside of posts and the username from inside of users!
+--Almost the exact sequence the findPosts function inside of user-model.js is asking for!
+
+--Because hypatia doesn't have a quote/post, when we run a get request for his posts, we get an empty array ([])
+--next we need to do the configuration of the find function!
+
+ --select
+     --u.id as user_id,
+     --u.username,
+     --count(p.id) as post_count
+ --from users as u
+ --join posts as p
+     --on u.id = p.user_id
+ --group by u.id
+
+--this works to get the philosophers and tells the amount of posts they have but there is one problem:
+--HYPATIA is never shown/mentioned!
+--remember, because there wasn't any information joining her in, we would need a left join to pull her up!
+
+ --select
+     --u.id as user_id,
+     --u.username,
+     --count(p.id) as post_count
+ --from users as u
+ --left join posts as p
+     --on u.id = p.user_id
+ --group by u.id;
+
+--this works with virtually the same code because users (what we were trying to find all of) was already on the LEFT TABLE!
+
+ --select
+     --u.id as user_id,
+     --u.username,
+     --p.contents,
+     --p.id as post_id
+ --from users as u
+ --left join posts as p
+     --on u.id = p.user_id
+ --where u.id = 1;
+
+--Works fine for the findById one!!
+
+
+--How to return Hypatia's stolen post??
+--update posts
+    --set user_id = 4
+--where id = 12;
+
+--now Hypatia has her post posted!
