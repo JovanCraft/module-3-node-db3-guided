@@ -40,10 +40,26 @@ where u.id = 3;
   */
 }
 
-function find() {
-  return db('users')
+async function find() {
+  const rows = await db('users as u')
+  .leftJoin('posts as p', 'u.id', '=', 'p.user_id')
+  .count('p.id as post_count')
+  .groupBy('u.id')
+  .select('u.id as user_id', 'username')
+
+  console.log(rows)
+  return rows
   /*
     Improve so it resolves this structure:
+
+  select
+     u.id as user_id,
+     u.username,
+     count(p.id) as post_count
+ from users as u
+ left join posts as p
+     on u.id = p.user_id
+ group by u.id;
 
     [
         {
