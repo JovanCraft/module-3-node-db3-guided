@@ -77,10 +77,32 @@ async function find() {
   */
 }
 
-function findById(id) {
-  return db('users').where({ id }).first()
+async function findById(id) {
+  const rows = await db('users as u')
+  .leftJoin('posts as p', 'u.id', '=', 'p.user_id')
+  .select('u.id as user_id', 'username', 'contents', 'p.id as post_id')
+  .where('u.id', id)
+
+  let result = rows.reduce((acc, row) => {
+    if(row.contents){
+      acc.posts.push({ contents: row.contents, post_id: row.post_id})
+    }
+    return acc
+  }, { user_id: rows[0].user_id, username: rows[0].username, posts: [] })
+
+  return result
   /*
     Improve so it resolves this structure:
+
+  select
+     u.id as user_id,
+     u.username,
+     p.contents,
+     p.id as post_id
+ from users as u
+ left join posts as p
+     on u.id = p.user_id
+ where u.id = 1;
 
     {
       "user_id": 2,
