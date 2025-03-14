@@ -130,3 +130,5 @@ function remove(id) {
   // returns removed count
   return db('users').where({ id }).del()
 }
+
+
